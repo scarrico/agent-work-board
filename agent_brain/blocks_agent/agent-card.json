@@ -111,7 +111,7 @@
   "runtime": {
     "handler": "./handler.ts",
     "handlerExport": "default",
-    "concurrency": 1,
+    "concurrency": 8,
     "expectedInstances": 1
   }
 }
