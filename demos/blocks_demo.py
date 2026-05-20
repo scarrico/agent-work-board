@@ -84,6 +84,7 @@ def main() -> None:
         "Demo ready: Blocks carries the agent-facing requests, Jira remains the board UI, "
         "and Brain stores instructions plus remembered summaries."
     )
+    print("People trying the published public agents can use the Blocks browser UI; running agents locally requires builder authentication.")
 
 
 def load_common_env() -> None:

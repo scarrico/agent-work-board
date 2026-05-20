@@ -86,6 +86,11 @@ blocks login --write-env
 python3.11 demos/blocks_demo.py
 ```
 
+Blocks does not document a separate demo API key for running an agent. Builders
+authenticate with `blocks login --write-env`. Callers can try public free agents
+from the Blocks browser UI without bringing their own API key, subject to the
+Blocks anonymous quota.
+
 ## Blocks + PubNub
 
 The recommended public entrypoint is the Blocks Kanban agent. Blocks gives agent
