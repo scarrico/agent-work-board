@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-work-boards"
+version = "0.1.0"
+description = "Agent-facing Kanban and Scrum work boards with SQLite, Jira, Blocks, and PubNub integrations."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Sandra Carrico" }]
+dependencies = []
+
+[project.optional-dependencies]
+brain = [
+  "mcp",
+  "pgvector",
+  "psycopg2-binary",
+  "sentence-transformers",
+]
+
+[tool.setuptools]
+packages = ["kanban", "kanban.backends", "scrum", "agent_runtime", "board_agents", "agent_brain"]

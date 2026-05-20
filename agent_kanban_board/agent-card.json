@@ -1,0 +1,112 @@
+{
+  "identity": {
+    "agentName": "agent_kanban_board",
+    "displayName": "Agent Kanban Board",
+    "description": "Organizes groups of agents through a shared Kanban work queue, with optional PubNub event publishing.",
+    "version": "1.0.0",
+    "provider": {
+      "organization": "agent_kanban_board"
+    }
+  },
+  "capabilities": {
+    "taskKinds": [
+      "request"
+    ]
+  },
+  "io": {
+    "inputs": [
+      {
+        "id": "request",
+        "description": "Kanban command request.",
+        "contentType": "application/json",
+        "required": true,
+        "example": {
+          "action": "counts",
+          "backend": "jira"
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["add", "claim", "heartbeat", "move", "list", "counts"]
+            },
+            "backend": {
+              "type": "string",
+              "default": "jira"
+            },
+            "board_id": {
+              "type": "string"
+            },
+            "db_path": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "worker_id": {
+              "type": "string"
+            },
+            "card_id": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string"
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "lease_seconds": {
+              "type": "integer"
+            },
+            "strategy": {
+              "type": "string"
+            },
+            "payload": {
+              "type": "object"
+            },
+            "priority": {
+              "type": "integer"
+            },
+            "max_attempts": {
+              "type": "integer"
+            },
+            "actor": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "result",
+        "description": "Kanban command result.",
+        "contentType": "application/json",
+        "guaranteed": true
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "main",
+      "name": "Agent Work Queue",
+      "description": "Coordinates agent work by creating, claiming, moving, and listing Kanban cards."
+    }
+  ],
+  "runtime": {
+    "handler": "./handler.ts",
+    "handlerExport": "default",
+    "concurrency": 1,
+    "expectedInstances": 1
+  }
+}

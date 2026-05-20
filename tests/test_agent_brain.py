@@ -1,0 +1,131 @@
+import json
+import subprocess
+import sys
+import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from agent_brain import BrainService
+from agent_brain.request import execute_brain_request
+from board_agents.instructions import instruction_text, load_brain_instructions
+
+
+class AgentBrainTests(unittest.TestCase):
+    def test_capture_search_and_stats(self):
+        with TemporaryDirectory() as tmp:
+            service = BrainService(db_path=str(Path(tmp) / "brain.sqlite"))
+            saved = service.capture_thought(
+                content="We decided the status agent should report stale claims.",
+                category="decision",
+                project="agent-work-boards",
+                source="user",
+                importance="high",
+            )
+
+            results = service.search_thoughts("stale claims", project="agent-work-boards")
+            stats = service.thought_stats()
+
+        self.assertEqual(saved["status"], "saved")
+        self.assertEqual(results["count"], 1)
+        self.assertEqual(results["results"][0]["category"], "decision")
+        self.assertEqual(stats["total_thoughts"], 1)
+
+    def test_instruction_lookup_filters_scope_and_date(self):
+        with TemporaryDirectory() as tmp:
+            service = BrainService(db_path=str(Path(tmp) / "brain.sqlite"))
+            service.put_instruction(
+                content="Daily status should lead with blockers.",
+                scope="daily-status",
+                cadence="daily",
+                effective_on="2026-05-20",
+                tool="status_agent",
+            )
+            service.put_instruction(
+                content="Weekly status should include trend notes.",
+                scope="weekly-status",
+                cadence="weekly",
+                effective_on="2026-05-18",
+                tool="status_agent",
+            )
+
+            daily = service.get_instructions(
+                scope="daily-status",
+                cadence="daily",
+                effective_on="2026-05-20",
+                tool="status_agent",
+            )
+
+        self.assertEqual(daily["count"], 1)
+        self.assertEqual(daily["results"][0]["content"], "Daily status should lead with blockers.")
+
+    def test_request_and_handler_shapes(self):
+        with TemporaryDirectory() as tmp:
+            db_path = str(Path(tmp) / "brain.sqlite")
+            saved = execute_brain_request(
+                {
+                    "action": "put_instruction",
+                    "db_path": db_path,
+                    "content": "Use short status notes.",
+                    "scope": "daily-status",
+                }
+            )
+            listed = execute_brain_request(
+                {
+                    "action": "get_instructions",
+                    "db_path": db_path,
+                    "scope": "daily-status",
+                }
+            )
+
+        self.assertEqual(saved["status"], "saved")
+        self.assertEqual(listed["count"], 1)
+
+    def test_board_agents_can_load_brain_instructions(self):
+        with TemporaryDirectory() as tmp:
+            db_path = str(Path(tmp) / "brain.sqlite")
+            service = BrainService(db_path=db_path)
+            service.put_instruction(
+                content="Mention stale work first.",
+                scope="daily-status",
+                cadence="daily",
+                effective_on="2026-05-20",
+                tool="status_agent",
+            )
+
+            instructions = load_brain_instructions(
+                db_path,
+                scope="daily-status",
+                cadence="daily",
+                tool="status_agent",
+                effective_on="2026-05-20",
+            )
+
+        self.assertEqual(len(instructions), 1)
+        self.assertIn("Mention stale work first.", instruction_text(instructions))
+
+    def test_brain_handler_returns_json_envelope(self):
+        with TemporaryDirectory() as tmp:
+            db_path = str(Path(tmp) / "brain.sqlite")
+            root = Path(__file__).resolve().parents[1]
+            request = {
+                "action": "capture_thought",
+                "db_path": db_path,
+                "content": "Remember that instructions are data.",
+                "category": "instruction",
+            }
+            result = subprocess.run(
+                [sys.executable, str(root / "brain_handler.py")],
+                input=json.dumps(request),
+                text=True,
+                capture_output=True,
+                check=True,
+                cwd=root,
+            )
+            envelope = json.loads(result.stdout)
+
+        self.assertTrue(envelope["ok"])
+        self.assertEqual(envelope["result"]["status"], "saved")
+
+
+if __name__ == "__main__":
+    unittest.main()

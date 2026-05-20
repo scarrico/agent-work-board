@@ -1,0 +1,114 @@
+{
+  "identity": {
+    "agentName": "agent_brain",
+    "displayName": "Agent Brain",
+    "description": "Stores and retrieves shared agent context, memories, and mutable operating instructions through a Blocks-facing brain.",
+    "version": "1.0.0",
+    "provider": {
+      "organization": "agent_brain"
+    }
+  },
+  "capabilities": {
+    "taskKinds": [
+      "request"
+    ]
+  },
+  "io": {
+    "inputs": [
+      {
+        "id": "request",
+        "description": "Brain command request.",
+        "contentType": "application/json",
+        "required": true,
+        "example": {
+          "action": "put_instruction",
+          "scope": "daily-status",
+          "cadence": "daily",
+          "content": "Focus today's status on blocked work and stale claims."
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "capture_thought",
+                "search_thoughts",
+                "list_thoughts",
+                "browse_brain",
+                "thought_stats",
+                "put_instruction",
+                "get_instructions",
+                "list_instructions"
+              ]
+            },
+            "db_path": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "query": {
+              "type": "string"
+            },
+            "threshold": {
+              "type": "number"
+            },
+            "limit": {
+              "type": "integer"
+            },
+            "category": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "importance": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "cadence": {
+              "type": "string",
+              "enum": ["daily", "weekly", "always"]
+            },
+            "effective_on": {
+              "type": "string"
+            },
+            "tool": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "result",
+        "description": "Brain command result.",
+        "contentType": "application/json",
+        "guaranteed": true
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "main",
+      "name": "Agent Brain",
+      "description": "Stores agent memories and retrieves daily, weekly, or tool-specific operating instructions."
+    }
+  ],
+  "runtime": {
+    "handler": "./handler.ts",
+    "handlerExport": "default",
+    "concurrency": 1,
+    "expectedInstances": 1
+  }
+}

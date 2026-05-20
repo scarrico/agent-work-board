@@ -1,0 +1,80 @@
+{
+  "identity": {
+    "agentName": "agent_scrum_board",
+    "displayName": "Agent Scrum Board",
+    "description": "Organizes groups of agents through a Jira-backed Scrum workflow, with sprint planning and story claiming.",
+    "version": "1.0.0",
+    "provider": {
+      "organization": "agent_scrum_board"
+    }
+  },
+  "capabilities": {
+    "taskKinds": [
+      "request"
+    ]
+  },
+  "io": {
+    "inputs": [
+      {
+        "id": "request",
+        "description": "Scrum command request.",
+        "contentType": "application/json",
+        "required": true,
+        "example": {
+          "action": "counts"
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": ["add_story", "plan_sprint", "claim", "move", "list", "counts"]
+            },
+            "title": {
+              "type": "string"
+            },
+            "card_id": {
+              "type": "string"
+            },
+            "worker_id": {
+              "type": "string"
+            },
+            "sprint_id": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string"
+            },
+            "payload": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "result",
+        "description": "Scrum command result.",
+        "contentType": "application/json",
+        "guaranteed": true
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "main",
+      "name": "Agent Scrum Workflow",
+      "description": "Coordinates agent work by creating, planning, claiming, moving, and listing Jira-backed Scrum stories."
+    }
+  ],
+  "runtime": {
+    "handler": "./handler.ts",
+    "handlerExport": "default",
+    "concurrency": 1,
+    "expectedInstances": 1
+  }
+}
