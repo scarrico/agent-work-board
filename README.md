@@ -87,6 +87,17 @@ Run the local Brain + Kanban demo without Jira, Blocks, PubNub, or LLM keys:
 python3.11 demos/local_board_brain_demo.py
 ```
 
+Choose a deployment mode:
+
+- Local laptop: SQLite board, SQLite Brain, optional JSONL events.
+- Team setup: Jira board, production Brain with Postgres/pgvector and
+  embeddings, PubNub events, Blocks agents.
+- SSH-mediated: board and Brain calls execute on another machine without
+  running HTTP locally.
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for install-and-run paths for each
+mode.
+
 Run the Blocks demo checklist after authenticating with Blocks:
 
 ```bash

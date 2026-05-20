@@ -2,6 +2,9 @@
 
 This project separates durable work state from real-time coordination.
 
+For concrete local, team, and SSH deployment recipes, see
+[DEPLOYMENT.md](DEPLOYMENT.md).
+
 ```text
 Agents / Blocks tasks
         |
