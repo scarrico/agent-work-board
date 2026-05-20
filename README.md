@@ -170,6 +170,8 @@ See [docs/SSH_RPC.md](docs/SSH_RPC.md).
 ```bash
 python3.11 brain_cli.py put_instruction "Lead status with blockers." --scope daily-status --cadence daily
 python3.11 brain_cli.py get_instructions --scope daily-status --cadence daily
+python3.11 brain_cli.py doctor --backend sqlite
+python3.11 brain_cli.py print_postgres_schema
 ```
 
 See [docs/AGENT_BRAIN.md](docs/AGENT_BRAIN.md).

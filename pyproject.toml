@@ -3,12 +3,12 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agent-work-boards"
+name = "agent-work-board"
 version = "0.1.0"
 description = "Agent-facing Kanban and Scrum work boards with SQLite, Jira, Blocks, and PubNub integrations."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 authors = [{ name = "Sandra Carrico" }]
 dependencies = []
 
@@ -19,6 +19,34 @@ brain = [
   "psycopg2-binary",
   "sentence-transformers",
 ]
+dev = [
+  "build",
+  "twine",
+]
+
+[project.scripts]
+kanban-board = "kanban_cli:main"
+scrum-board = "scrum_cli:main"
+agent-brain = "brain_cli:main"
+kanban-request = "kanban_request:main"
+brain-request = "brain_handler:main"
+agent-runtime = "agent_runtime.supervisor:main"
+agent-runtime-ctl = "agent_runtime.agentctl:main"
+agent-board-status = "board_agents.status_agent:main"
+agent-scrum-status = "board_agents.scrum_status_agent:main"
 
 [tool.setuptools]
 packages = ["kanban", "kanban.backends", "scrum", "agent_runtime", "board_agents", "agent_brain"]
+py-modules = [
+  "blocks_handler",
+  "brain_cli",
+  "brain_handler",
+  "env_cli",
+  "kanban_cli",
+  "kanban_request",
+  "scrum_cli",
+  "scrum_handler",
+]
+
+[tool.setuptools.package-data]
+agent_brain = ["postgres_schema.sql"]

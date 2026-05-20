@@ -6,6 +6,7 @@ import json
 
 from agent_brain.ssh_client import SSHBrainClient
 from agent_brain.request import execute_brain_request
+from agent_brain.setup import doctor, init_postgres_from_env, init_sqlite, postgres_schema_text
 from kanban.config import load_dotenv
 
 
@@ -45,6 +46,16 @@ def main() -> None:
     sub.add_parser("browse_brain")
     sub.add_parser("thought_stats")
 
+    init_db = sub.add_parser("init_db")
+    init_db.add_argument("--backend", default="sqlite", choices=["sqlite", "postgres"])
+    init_db.add_argument("--db-path", dest="command_db_path")
+
+    doctor_cmd = sub.add_parser("doctor")
+    doctor_cmd.add_argument("--backend", default="sqlite", choices=["sqlite", "postgres"])
+    doctor_cmd.add_argument("--db-path", dest="command_db_path")
+
+    sub.add_parser("print_postgres_schema")
+
     put_instruction = sub.add_parser("put_instruction")
     put_instruction.add_argument("content")
     put_instruction.add_argument("--scope", default="daily-status")
@@ -72,6 +83,18 @@ def main() -> None:
 
     args = parser.parse_args()
     load_dotenv()
+    if args.command == "init_db":
+        db_path = args.command_db_path or args.db_path
+        output = init_postgres_from_env() if args.backend == "postgres" else init_sqlite(db_path)
+        print(json.dumps(output, indent=2, sort_keys=True))
+        return
+    if args.command == "doctor":
+        db_path = args.command_db_path or args.db_path
+        print(json.dumps(doctor(args.backend, db_path), indent=2, sort_keys=True))
+        return
+    if args.command == "print_postgres_schema":
+        print(postgres_schema_text())
+        return
     request = vars(args)
     request["action"] = request.pop("command")
     request["db_path"] = args.db_path
