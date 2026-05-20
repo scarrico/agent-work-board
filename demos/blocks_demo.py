@@ -19,6 +19,7 @@ AGENTS = [
     ("agent_kanban_board", ROOT / "agent_kanban_board"),
     ("agent_scrum_board", ROOT / "agent_scrum_board"),
     ("agent_board_status", ROOT / "agent_board_status"),
+    ("agent_daily_briefing", ROOT / "agent_daily_briefing"),
 ]
 
 
@@ -89,6 +90,25 @@ def main() -> None:
         "--instruction-cadence daily "
         "--instruction-tool status_agent "
         "--remember-summary"
+    )
+    print()
+    print("6. Or ask agent_daily_briefing for one operator note:")
+    print_json(
+        {
+            "project": "work",
+            "backend": "jira",
+            "kanban": {"board_id": "work"},
+            "scrum": {"board_id": "scrum", "sprint_id": "sprint-1"},
+            "use_brain": True,
+            "include_recent": True,
+            "remember_summary": True,
+        }
+    )
+    print("   Or, without Blocks:")
+    print(
+        "   python3.11 daily_briefing_cli.py "
+        "--backend jira --board work --include-scrum --scrum-board scrum "
+        "--sprint sprint-1 --brain-db data/brain.sqlite --remember-summary"
     )
     print()
     print(

@@ -1,0 +1,102 @@
+{
+  "identity": {
+    "agentName": "agent_daily_briefing",
+    "displayName": "Agent Daily Briefing",
+    "description": "Builds a concise daily or standup briefing from agent_brain instructions, Kanban status, Scrum ceremony status, and recent remembered summaries.",
+    "version": "1.0.0",
+    "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_daily_briefing",
+    "repositoryUrl": "https://github.com/scarrico/agent-work-board",
+    "provider": {
+      "organization": "agent_daily_briefing"
+    }
+  },
+  "capabilities": {
+    "taskKinds": [
+      "request"
+    ]
+  },
+  "io": {
+    "inputs": [
+      {
+        "id": "request",
+        "description": "Daily briefing request. Use agent_brain for instructions and memory, agent_kanban_board for Kanban work state, and agent_scrum_board for standup and other Scrum ceremony state.",
+        "contentType": "application/json",
+        "required": true,
+        "example": {
+          "brain_db": "demo_data/local_board_brain_demo/brain.sqlite",
+          "project": "demo",
+          "backend": "sqlite",
+          "db_path": "demo_data/local_board_brain_demo/kanban.sqlite",
+          "kanban": {
+            "board_id": "demo"
+          },
+          "include_recent": true,
+          "remember_summary": true
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "brain_db": {"type": "string"},
+            "brain_client": {"type": "string"},
+            "use_brain": {"type": "boolean"},
+            "project": {"type": "string"},
+            "instruction_scope": {"type": "string"},
+            "instruction_cadence": {
+              "type": "string",
+              "enum": ["daily", "weekly", "always"]
+            },
+            "instruction_tool": {"type": "string"},
+            "instruction_project": {"type": "string"},
+            "instruction_effective_on": {"type": "string"},
+            "kanban": {"type": "object"},
+            "scrum": {"type": "object"},
+            "backend": {"type": "string"},
+            "board_client": {"type": "string"},
+            "board_id": {"type": "string"},
+            "board": {"type": "string"},
+            "board_url": {"type": "string"},
+            "db_path": {"type": "string"},
+            "max_cards": {"type": "integer"},
+            "stale_minutes": {"type": "integer"},
+            "include_recent": {"type": "boolean"},
+            "recent_limit": {"type": "integer"},
+            "remember_summary": {"type": "boolean"},
+            "ssh_host": {"type": "string"},
+            "ssh_root": {"type": "string"},
+            "ssh_python": {"type": "string"},
+            "ssh_user": {"type": "string"},
+            "ssh_port": {"type": "integer"},
+            "ssh_key": {"type": "string"},
+            "brain_ssh_host": {"type": "string"},
+            "brain_ssh_root": {"type": "string"},
+            "brain_ssh_python": {"type": "string"},
+            "brain_ssh_user": {"type": "string"},
+            "brain_ssh_port": {"type": "integer"},
+            "brain_ssh_key": {"type": "string"}
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "result",
+        "description": "Daily briefing result.",
+        "contentType": "application/json",
+        "guaranteed": true
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "main",
+      "name": "Daily Briefing",
+              "description": "Combines Brain instructions and memory with Kanban and optional Scrum ceremony status into a concise daily or standup briefing."
+    }
+  ],
+  "runtime": {
+    "handler": "./handler.ts",
+    "handlerExport": "default",
+    "concurrency": 2,
+    "expectedInstances": 1
+  }
+}

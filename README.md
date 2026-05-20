@@ -14,6 +14,8 @@
   stale-work detection
 - A Blocks-facing board status agent that summarizes Kanban or Scrum using
   optional Brain instructions and memory
+- A Blocks-facing daily briefing agent for combining Brain instructions, Kanban
+  status, Scrum ceremony status, and recent remembered summaries
 - A Blocks-facing Agent Brain for shared context plus daily, weekly, and
   tool-specific instructions, backed in production by pgvector, embeddings, and
   MCP-compatible tooling
@@ -41,7 +43,9 @@ agent-facing instruction and memory layer. A human or another agent can talk to
 Brain through Blocks, MCP, SSH, or the CLI to set today's instructions. The
 Kanban or Scrum status agent then reads those instructions from Brain, reads the
 actual work state from Jira, generates the summary, and can store the summary
-back in Brain.
+back in Brain. Run `agent_daily_briefing` when the useful product is one
+operator note that combines Brain instructions, Kanban status, Scrum standup
+status, and recent remembered summaries.
 
 ```text
 Human / agent / MCP / Blocks
@@ -174,11 +178,16 @@ The repo includes optional status agents that read Kanban or Scrum boards,
 summarize blocked, failed, impeded, stale, and active work, and can use an LLM to
 produce a daily operator note. They can also write that note back to the board
 or remember it in Agent Brain. The same summary path is also exposed as the
-`agent_board_status` Blocks agent.
+`agent_board_status` Blocks agent. The `agent_daily_briefing` Blocks agent
+combines those board summaries with Brain instructions and recent Brain memory.
+For Scrum, this is the first ceremony workflow: standup briefing now, with story
+updates, review notes, retrospective prompts, and planning summaries fitting the
+same Jira-backed pattern.
 
 ```bash
 python3.11 -m board_agents.status_agent --backend sqlite --db-path /tmp/kanban.sqlite --board default
 python3.11 -m board_agents.scrum_status_agent --board scrum --sprint sprint-1
+python3.11 daily_briefing_cli.py --backend sqlite --db-path /tmp/kanban.sqlite --board default
 ```
 
 For a Jira-backed work-board demo using the three published agents, use Brain to
@@ -200,7 +209,9 @@ python3.11 -m board_agents.status_agent \
 ```
 
 See [docs/BOARD_STATUS_AGENT.md](docs/BOARD_STATUS_AGENT.md) and
-[docs/SCRUM_STATUS_AGENT.md](docs/SCRUM_STATUS_AGENT.md).
+[docs/SCRUM_STATUS_AGENT.md](docs/SCRUM_STATUS_AGENT.md). The combined daily
+briefing workflow is documented in
+[docs/DAILY_BRIEFING_AGENT.md](docs/DAILY_BRIEFING_AGENT.md).
 
 ## Agent Brain
 
