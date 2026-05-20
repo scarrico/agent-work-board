@@ -12,6 +12,8 @@
 - SSH RPC for cross-machine development without running an HTTP server
 - Optional LLM-backed Kanban and Scrum status agents for daily summaries and
   stale-work detection
+- A Blocks-facing board status agent that summarizes Kanban or Scrum using
+  optional Brain instructions and memory
 - A Blocks-facing Agent Brain for shared context plus daily, weekly, and
   tool-specific instructions, backed in production by pgvector, embeddings, and
   MCP-compatible tooling
@@ -171,7 +173,8 @@ Medium-lived addressable worker processes are described in
 The repo includes optional status agents that read Kanban or Scrum boards,
 summarize blocked, failed, impeded, stale, and active work, and can use an LLM to
 produce a daily operator note. They can also write that note back to the board
-or remember it in Agent Brain.
+or remember it in Agent Brain. The same summary path is also exposed as the
+`agent_board_status` Blocks agent.
 
 ```bash
 python3.11 -m board_agents.status_agent --backend sqlite --db-path /tmp/kanban.sqlite --board default

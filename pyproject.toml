@@ -30,6 +30,7 @@ scrum-board = "scrum_cli:main"
 agent-brain = "brain_cli:main"
 kanban-request = "kanban_request:main"
 brain-request = "brain_handler:main"
+board-status-request = "board_status_handler:main"
 agent-runtime = "agent_runtime.supervisor:main"
 agent-runtime-ctl = "agent_runtime.agentctl:main"
 agent-board-status = "board_agents.status_agent:main"
@@ -41,6 +42,7 @@ py-modules = [
   "blocks_handler",
   "brain_cli",
   "brain_handler",
+  "board_status_handler",
   "env_cli",
   "kanban_cli",
   "kanban_request",

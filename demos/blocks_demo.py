@@ -18,6 +18,7 @@ AGENTS = [
     ("agent_brain", ROOT / "agent_brain" / "blocks_agent"),
     ("agent_kanban_board", ROOT / "agent_kanban_board"),
     ("agent_scrum_board", ROOT / "agent_scrum_board"),
+    ("agent_board_status", ROOT / "agent_board_status"),
 ]
 
 
@@ -70,6 +71,16 @@ def main() -> None:
     )
 
     print("5. Run the local status agent against the same configured backends:")
+    print_json(
+        {
+            "board_type": "kanban",
+            "backend": "jira",
+            "board_id": "work",
+            "use_brain": True,
+            "remember_summary": True,
+        }
+    )
+    print("   Or, without Blocks:")
     print(
         "   python3.11 -m board_agents.status_agent "
         "--backend jira --board work "
