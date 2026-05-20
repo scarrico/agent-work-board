@@ -4,6 +4,8 @@
     "displayName": "Agent Brain",
     "description": "Stores and retrieves shared agent context, memories, and mutable operating instructions through a Blocks-facing brain.",
     "version": "1.0.0",
+    "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_brain/blocks_agent",
+    "repositoryUrl": "https://github.com/scarrico/agent-work-board",
     "provider": {
       "organization": "agent_brain"
     }
@@ -24,6 +26,7 @@
           "action": "put_instruction",
           "scope": "daily-status",
           "cadence": "daily",
+          "tool": "status_agent",
           "content": "Focus today's status on blocked work and stale claims."
         },
         "schema": {

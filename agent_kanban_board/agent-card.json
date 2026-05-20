@@ -4,6 +4,8 @@
     "displayName": "Agent Kanban Board",
     "description": "Organizes groups of agents through a shared Kanban work queue, with optional PubNub event publishing.",
     "version": "1.0.0",
+    "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_kanban_board",
+    "repositoryUrl": "https://github.com/scarrico/agent-work-board",
     "provider": {
       "organization": "agent_kanban_board"
     }
@@ -22,7 +24,8 @@
         "required": true,
         "example": {
           "action": "counts",
-          "backend": "jira"
+          "backend": "jira",
+          "board_id": "work"
         },
         "schema": {
           "type": "object",

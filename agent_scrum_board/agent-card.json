@@ -4,6 +4,8 @@
     "displayName": "Agent Scrum Board",
     "description": "Organizes groups of agents through a Jira-backed Scrum workflow, with sprint planning and story claiming.",
     "version": "1.0.0",
+    "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_scrum_board",
+    "repositoryUrl": "https://github.com/scarrico/agent-work-board",
     "provider": {
       "organization": "agent_scrum_board"
     }
@@ -21,7 +23,8 @@
         "contentType": "application/json",
         "required": true,
         "example": {
-          "action": "counts"
+          "action": "counts",
+          "sprint_id": "sprint-1"
         },
         "schema": {
           "type": "object",
