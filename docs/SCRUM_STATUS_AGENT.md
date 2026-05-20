@@ -48,3 +48,15 @@ python3.11 -m board_agents.scrum_status_agent \
   --instruction-cadence daily \
   --instruction-tool scrum_status_agent
 ```
+
+Store the generated summary back into Agent Brain:
+
+```bash
+python3.11 -m board_agents.scrum_status_agent \
+  --backend jira --board scrum --sprint sprint-1 \
+  --brain-db data/brain.sqlite \
+  --instruction-scope scrum-status \
+  --instruction-cadence daily \
+  --instruction-tool scrum_status_agent \
+  --remember-summary
+```

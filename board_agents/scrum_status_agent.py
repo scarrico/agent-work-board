@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any, Protocol
 
-from board_agents.instructions import instruction_text, load_brain_instructions
+from board_agents.instructions import instruction_text, load_brain_instructions, remember_brain_summary
 from board_agents.llm import optional_llm_digest
 from board_agents.status_agent import _format_counts, _minutes_since, _safe_payload, _titles
 from kanban.config import load_dotenv
@@ -132,6 +132,7 @@ def main() -> None:
     parser.add_argument("--sprint")
     parser.add_argument("--stale-minutes", type=int, default=60)
     parser.add_argument("--max-cards", type=int, default=12)
+    parser.add_argument("--backend", default="jira")
     parser.add_argument("--write-story", action="store_true")
     parser.add_argument("--brain-db")
     parser.add_argument("--brain-client", default="local", choices=["local", "ssh"])
@@ -145,11 +146,12 @@ def main() -> None:
     parser.add_argument("--instruction-cadence", choices=["daily", "weekly", "always"])
     parser.add_argument("--instruction-tool", default="scrum_status_agent")
     parser.add_argument("--instruction-project")
+    parser.add_argument("--remember-summary", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
     load_dotenv()
-    service = ScrumService(board_id=args.board)
+    service = ScrumService(board_id=args.board, backend=args.backend)
     snapshot = build_scrum_snapshot(
         service,
         args.board,
@@ -176,11 +178,25 @@ def main() -> None:
     if instructions_block:
         fallback = f"{fallback}\n\nActive instructions:\n{instructions_block}"
     digest = scrum_llm_digest(snapshot, fallback)
+    memory = remember_brain_summary(
+        digest,
+        args.brain_db,
+        project=args.instruction_project or args.board,
+        client=args.brain_client,
+        ssh_host=args.brain_ssh_host,
+        ssh_root=args.brain_ssh_root,
+        ssh_python=args.brain_ssh_python,
+        ssh_user=args.brain_ssh_user,
+        ssh_port=args.brain_ssh_port,
+        ssh_key=args.brain_ssh_key,
+    ) if args.remember_summary else None
     story = write_scrum_status_story(service, snapshot, digest) if args.write_story else None
     if args.json:
-        print(json.dumps({"digest": digest, "instructions": instructions, "snapshot": asdict(snapshot), "story": asdict(story) if story else None}, indent=2, sort_keys=True))
+        print(json.dumps({"digest": digest, "instructions": instructions, "snapshot": asdict(snapshot), "memory": memory, "story": asdict(story) if story else None}, indent=2, sort_keys=True))
     else:
         print(digest)
+        if memory:
+            print(f"\nRemembered summary: {memory['id']}")
         if story:
             print(f"\nCreated status story: {story.id}")
 

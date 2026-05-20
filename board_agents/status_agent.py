@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-from board_agents.instructions import instruction_text, load_brain_instructions
+from board_agents.instructions import instruction_text, load_brain_instructions, remember_brain_summary
 from board_agents.llm import optional_llm_digest
 from kanban.board import Card
 from kanban.client import BoardClient, create_board_client
@@ -126,6 +126,7 @@ def main() -> None:
     parser.add_argument("--instruction-cadence", choices=["daily", "weekly", "always"])
     parser.add_argument("--instruction-tool", default="status_agent")
     parser.add_argument("--instruction-project")
+    parser.add_argument("--remember-summary", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
@@ -163,11 +164,25 @@ def main() -> None:
     if instructions_block:
         fallback = f"{fallback}\n\nActive instructions:\n{instructions_block}"
     digest = llm_digest(snapshot, fallback)
+    memory = remember_brain_summary(
+        digest,
+        args.brain_db,
+        project=args.instruction_project or args.board,
+        client=args.brain_client,
+        ssh_host=args.brain_ssh_host,
+        ssh_root=args.brain_ssh_root,
+        ssh_python=args.brain_ssh_python,
+        ssh_user=args.brain_ssh_user,
+        ssh_port=args.brain_ssh_port,
+        ssh_key=args.brain_ssh_key,
+    ) if args.remember_summary else None
     card = write_status_card(board, snapshot, digest, args.actor) if args.write_card else None
     if args.json:
-        print(json.dumps({"digest": digest, "instructions": instructions, "snapshot": asdict(snapshot), "card": asdict(card) if card else None}, indent=2, sort_keys=True))
+        print(json.dumps({"digest": digest, "instructions": instructions, "snapshot": asdict(snapshot), "memory": memory, "card": asdict(card) if card else None}, indent=2, sort_keys=True))
     else:
         print(digest)
+        if memory:
+            print(f"\nRemembered summary: {memory['id']}")
         if card:
             print(f"\nCreated status card: {card.id}")
 

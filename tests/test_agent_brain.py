@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 
 from agent_brain import BrainService
 from agent_brain.request import execute_brain_request
-from board_agents.instructions import instruction_text, load_brain_instructions
+from board_agents.instructions import instruction_text, load_brain_instructions, remember_brain_summary
 
 
 class AgentBrainTests(unittest.TestCase):
@@ -102,6 +102,22 @@ class AgentBrainTests(unittest.TestCase):
 
         self.assertEqual(len(instructions), 1)
         self.assertIn("Mention stale work first.", instruction_text(instructions))
+
+    def test_board_agents_can_remember_status_summary(self):
+        with TemporaryDirectory() as tmp:
+            db_path = str(Path(tmp) / "brain.sqlite")
+            saved = remember_brain_summary(
+                "Board demo status: no blocked cards.",
+                db_path=db_path,
+                project="demo-board",
+            )
+            service = BrainService(db_path=db_path)
+            results = service.search_thoughts("blocked cards", project="demo-board")
+
+        self.assertIsNotNone(saved)
+        self.assertEqual(saved["status"], "saved")
+        self.assertEqual(results["count"], 1)
+        self.assertEqual(results["results"][0]["source"], "agent")
 
     def test_brain_handler_returns_json_envelope(self):
         with TemporaryDirectory() as tmp:

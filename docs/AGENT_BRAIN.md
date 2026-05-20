@@ -27,6 +27,10 @@ daily operating policy from generic memory search. Use scopes such as
 `daily-status`, `weekly-status`, `scrum-status`, or tool names such as
 `status_agent`.
 
+Board agents use Brain in both directions. Before generating a report they can
+load the current instructions, and after generating a report they can capture
+the status summary as an observation.
+
 ## CLI
 
 ```bash
@@ -40,6 +44,19 @@ python3.11 brain_cli.py --db-path data/brain.sqlite put_instruction \
 
 python3.11 brain_cli.py --db-path data/brain.sqlite get_instructions \
   --scope daily-status --cadence daily --effective-on 2026-05-20 --tool status_agent
+```
+
+Run a Kanban status summary using Brain instructions and save the summary back
+to Brain:
+
+```bash
+python3.11 -m board_agents.status_agent \
+  --backend jira --board work \
+  --brain-db data/brain.sqlite \
+  --instruction-scope daily-status \
+  --instruction-cadence daily \
+  --instruction-tool status_agent \
+  --remember-summary
 ```
 
 ## Blocks

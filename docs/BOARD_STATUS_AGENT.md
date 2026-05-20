@@ -49,6 +49,18 @@ python3.11 -m board_agents.status_agent \
   --instruction-tool status_agent
 ```
 
+Store the generated summary back into Agent Brain:
+
+```bash
+python3.11 -m board_agents.status_agent \
+  --backend jira --board work \
+  --brain-db data/brain.sqlite \
+  --instruction-scope daily-status \
+  --instruction-cadence daily \
+  --instruction-tool status_agent \
+  --remember-summary
+```
+
 For remote workers, point it at the shared HTTP board:
 
 ```bash

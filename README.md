@@ -104,11 +104,30 @@ Medium-lived addressable worker processes are described in
 
 The repo includes optional status agents that read Kanban or Scrum boards,
 summarize blocked, failed, impeded, stale, and active work, and can use an LLM to
-produce a daily operator note. They can also write that note back to the board.
+produce a daily operator note. They can also write that note back to the board
+or remember it in Agent Brain.
 
 ```bash
 python3.11 -m board_agents.status_agent --backend sqlite --db-path /tmp/kanban.sqlite --board default
 python3.11 -m board_agents.scrum_status_agent --board scrum --sprint sprint-1
+```
+
+For a Jira-backed work-board demo using the three published agents, use Brain to
+store the reporting instruction, Kanban or Scrum to read the Jira board, and
+Brain again to retain the generated status:
+
+```bash
+python3.11 brain_cli.py --db-path data/brain.sqlite put_instruction \
+  "Lead with blocked and stale work." \
+  --scope daily-status --cadence daily --tool status_agent
+
+python3.11 -m board_agents.status_agent \
+  --backend jira --board work \
+  --brain-db data/brain.sqlite \
+  --instruction-scope daily-status \
+  --instruction-cadence daily \
+  --instruction-tool status_agent \
+  --remember-summary
 ```
 
 See [docs/BOARD_STATUS_AGENT.md](docs/BOARD_STATUS_AGENT.md) and
