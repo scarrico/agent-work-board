@@ -73,6 +73,19 @@ python3.11 kanban_cli.py backends
 python3.11 kanban_cli.py strategies
 ```
 
+Run the local Brain + Kanban demo without Jira, Blocks, PubNub, or LLM keys:
+
+```bash
+python3.11 demos/local_board_brain_demo.py
+```
+
+Run the Blocks-oriented demo checklist after authenticating with Blocks:
+
+```bash
+blocks login --write-env
+python3.11 demos/blocks_adoption_demo.py
+```
+
 ## Blocks + PubNub
 
 The recommended public entrypoint is the Blocks Kanban agent. Blocks gives agent
