@@ -31,8 +31,8 @@ def main() -> None:
         run_blocks_check(name, path)
 
     print()
-    print("Blocks adoption demo")
-    print("====================")
+    print("Blocks demo")
+    print("===========")
     print()
     print("1. Run the agents in separate terminals:")
     for name, path in AGENTS:
@@ -96,8 +96,9 @@ def require_blocks_key() -> None:
     if os.environ.get("BLOCKS_API_KEY"):
         return
     raise SystemExit(
-        "Missing BLOCKS_API_KEY. Run `blocks login --write-env` in an agent directory "
-        "or put BLOCKS_API_KEY in a local ignored .env file."
+        "Missing BLOCKS_API_KEY. Blocks does not provide a separate demo key; "
+        "authenticate with `blocks login --write-env` in an agent directory or put "
+        "BLOCKS_API_KEY in a local ignored .env file."
     )
 
 

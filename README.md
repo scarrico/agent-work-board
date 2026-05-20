@@ -79,11 +79,11 @@ Run the local Brain + Kanban demo without Jira, Blocks, PubNub, or LLM keys:
 python3.11 demos/local_board_brain_demo.py
 ```
 
-Run the Blocks-oriented demo checklist after authenticating with Blocks:
+Run the Blocks demo checklist after authenticating with Blocks:
 
 ```bash
 blocks login --write-env
-python3.11 demos/blocks_adoption_demo.py
+python3.11 demos/blocks_demo.py
 ```
 
 ## Blocks + PubNub
