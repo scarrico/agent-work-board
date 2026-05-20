@@ -34,6 +34,21 @@ This separation keeps Kanban/Scrum boards from becoming a dumping ground for
 policy and memory. Agents can use the board to coordinate work and the brain to
 resolve the current instructions for how that work should be handled today.
 
+Jira remains the human visual UI for Kanban and Scrum boards. Brain is the
+agent-facing instruction and memory layer. A human or another agent can talk to
+Brain through Blocks, MCP, SSH, or the CLI to set today's instructions. The
+Kanban or Scrum status agent then reads those instructions from Brain, reads the
+actual work state from Jira, generates the summary, and can store the summary
+back in Brain.
+
+```text
+Human / agent / MCP / Blocks
+        -> Agent Brain instructions and memory
+        -> Kanban or Scrum status agent
+        -> Jira board state
+        -> summary back to Brain and optionally Jira
+```
+
 The useful Kanban mental model is:
 
 ```text
@@ -71,6 +86,39 @@ Blocks agent/task call -> KanbanService -> Jira/SQLite board
 
 The same handler can be run directly for local fallback with
 [kanban_request.py](kanban_request.py).
+
+## Downloaded Agent Workflow
+
+When someone installs the published Blocks agents, the first useful workflow is:
+
+1. Configure Jira credentials in the runtime environment.
+2. Use `agent_brain` to store the reporting instruction.
+3. Use `agent_kanban_board` or `agent_scrum_board` to inspect or update Jira
+   work.
+4. Run a status agent so it reads Brain instructions, reads Jira work state, and
+   remembers the summary in Brain.
+
+Minimal Brain request:
+
+```json
+{
+  "action": "put_instruction",
+  "scope": "daily-status",
+  "cadence": "daily",
+  "tool": "status_agent",
+  "content": "Lead with blocked and stale work. Keep the summary short."
+}
+```
+
+Minimal Kanban request:
+
+```json
+{
+  "action": "counts",
+  "backend": "jira",
+  "board_id": "work"
+}
+```
 
 ## Backends
 

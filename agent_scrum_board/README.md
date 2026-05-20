@@ -18,6 +18,24 @@ The intended use is agent self-organization. A group of agents can use Scrum
 ceremonies and sprint structure without needing a human dispatcher for every
 task.
 
+## How It Fits With Brain
+
+Jira is the human visual Scrum board. This agent is the agent-facing way to
+create stories, plan sprint work, claim stories, and move stories through the
+workflow. Agent Brain is separate: use it to store daily instructions, reporting
+preferences, and remembered summaries.
+
+A typical setup is:
+
+```text
+agent_brain stores sprint-report instructions
+agent_scrum_board reads or updates Jira Scrum work
+scrum_status_agent reads Brain + Jira and writes the summary back to Brain
+```
+
+After installing this agent, first verify the Jira connection by listing or
+claiming sprint work, then add Brain instructions for the status agent.
+
 ## Runtime Configuration
 
 Credentials are not bundled with this public agent. The runtime must provide:
