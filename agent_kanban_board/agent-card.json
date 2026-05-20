@@ -2,7 +2,7 @@
   "identity": {
     "agentName": "agent_kanban_board",
     "displayName": "Agent Kanban Board",
-    "description": "Organizes groups of agents through a shared Kanban work queue, with optional PubNub event publishing.",
+    "description": "Organizes groups of agents through a shared Kanban work queue. Pair with agent_brain for mutable instructions and remembered summaries.",
     "version": "1.0.0",
     "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_kanban_board",
     "repositoryUrl": "https://github.com/scarrico/agent-work-board",
@@ -103,7 +103,7 @@
     {
       "id": "main",
       "name": "Agent Work Queue",
-      "description": "Coordinates agent work by creating, claiming, moving, and listing Kanban cards."
+      "description": "Coordinates agent work by creating, claiming, moving, and listing Kanban cards. Use agent_brain alongside it for reporting instructions and memory."
     }
   ],
   "runtime": {

@@ -30,6 +30,8 @@ agent_kanban_board reads or updates Jira work
 status_agent reads Brain + Jira and writes the summary back to Brain
 ```
 
+Companion agent: `agent_brain`.
+
 After installing this agent, first verify the Jira connection with `counts`,
 then create or claim a card.
 

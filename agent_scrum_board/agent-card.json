@@ -2,7 +2,7 @@
   "identity": {
     "agentName": "agent_scrum_board",
     "displayName": "Agent Scrum Board",
-    "description": "Organizes groups of agents through a Jira-backed Scrum workflow, with sprint planning and story claiming.",
+    "description": "Organizes groups of agents through a Jira-backed Scrum workflow. Pair with agent_brain for sprint-report instructions and memory.",
     "version": "1.0.0",
     "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_scrum_board",
     "repositoryUrl": "https://github.com/scarrico/agent-work-board",
@@ -71,7 +71,7 @@
     {
       "id": "main",
       "name": "Agent Scrum Workflow",
-      "description": "Coordinates agent work by creating, planning, claiming, moving, and listing Jira-backed Scrum stories."
+      "description": "Coordinates agent work by creating, planning, claiming, moving, and listing Jira-backed Scrum stories. Use agent_brain alongside it for reporting instructions and memory."
     }
   ],
   "runtime": {

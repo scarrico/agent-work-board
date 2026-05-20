@@ -33,6 +33,8 @@ agent_scrum_board reads or updates Jira Scrum work
 scrum_status_agent reads Brain + Jira and writes the summary back to Brain
 ```
 
+Companion agent: `agent_brain`.
+
 After installing this agent, first verify the Jira connection by listing or
 claiming sprint work, then add Brain instructions for the status agent.
 
