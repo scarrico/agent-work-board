@@ -17,6 +17,7 @@ SECRET_KEYS = {
     "POLYGON_API_KEY",
     "OPENAI_API_KEY",
     "KANBAN_BOARD_TOKEN",
+    "OB_DB_PASSWORD",
 }
 
 PUBLIC_KEYS = {
@@ -62,6 +63,8 @@ DEFAULT_ENV_VALUES = {
     "OB_DB_HOST": "localhost",
     "OB_DB_PORT": "5432",
     "OB_DB_USER": "",
+    "OB_DB_PASSWORD": "",
+    "OB_DB_CONNECT_TIMEOUT": "5",
     "OB_EMBEDDING_MODEL": "all-mpnet-base-v2",
     "PUBNUB_PUBLISH_KEY": "",
     "PUBNUB_SUBSCRIBE_KEY": "",
@@ -139,7 +142,7 @@ def mask_value(key: str, value: str) -> str:
         return "missing"
     if key in PUBLIC_KEYS:
         return value
-    if key in SECRET_KEYS or key.endswith("_TOKEN") or key.endswith("_KEY"):
+    if key in SECRET_KEYS or key.endswith("_TOKEN") or key.endswith("_KEY") or key.endswith("_PASSWORD"):
         return "set"
     return value
 

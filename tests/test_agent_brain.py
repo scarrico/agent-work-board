@@ -4,9 +4,11 @@ import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import Mock, patch
 
 from agent_brain import BrainService
 from agent_brain.request import execute_brain_request
+from agent_brain.setup import doctor
 from board_agents.instructions import instruction_text, load_brain_instructions, remember_brain_summary
 
 
@@ -141,6 +143,56 @@ class AgentBrainTests(unittest.TestCase):
 
         self.assertTrue(envelope["ok"])
         self.assertEqual(envelope["result"]["status"], "saved")
+
+    def test_postgres_doctor_reports_connection_extensions_and_schema(self):
+        class Cursor:
+            def __init__(self):
+                self.rows = []
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def execute(self, sql):
+                if "pg_extension" in sql:
+                    self.rows = [("vector",), ("pgcrypto",)]
+                elif "information_schema.tables" in sql:
+                    self.rows = [("thoughts",), ("brain_instructions",)]
+                else:
+                    self.rows = [(1,)]
+
+            def fetchall(self):
+                return self.rows
+
+        conn = Mock()
+        conn.cursor.return_value = Cursor()
+        psycopg2 = Mock()
+        psycopg2.connect.return_value = conn
+
+        def fake_find_spec(module):
+            return object() if module in {"psycopg2", "pgvector", "sentence_transformers", "mcp"} else None
+
+        with patch.dict(
+            "os.environ",
+            {
+                "OB_DB_NAME": "open_brain",
+                "OB_DB_HOST": "db.example.com",
+                "OB_DB_PORT": "5432",
+                "OB_DB_USER": "brain",
+                "OB_DB_PASSWORD": "secret",
+            },
+            clear=False,
+        ), patch("importlib.util.find_spec", side_effect=fake_find_spec), patch.dict("sys.modules", {"psycopg2": psycopg2}):
+            result = doctor("postgres")
+
+        self.assertTrue(result["ok"])
+        check_names = {item["name"]: item for item in result["checks"]}
+        self.assertTrue(check_names["postgres_connection"]["ok"])
+        self.assertTrue(check_names["postgres_extensions"]["ok"])
+        self.assertTrue(check_names["postgres_schema"]["ok"])
+        self.assertIn("db.example.com", check_names["postgres_connection"]["detail"])
 
 
 if __name__ == "__main__":

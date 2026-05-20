@@ -44,6 +44,25 @@ JIRA_EMAIL
 JIRA_API_TOKEN
 ```
 
+## Hosted Brain Values
+
+```text
+BRAIN_BACKEND=postgres
+OB_DB_NAME
+OB_DB_HOST
+OB_DB_PORT
+OB_DB_USER
+OB_DB_PASSWORD
+OB_DB_CONNECT_TIMEOUT
+OB_EMBEDDING_MODEL
+```
+
+Validate hosted Brain configuration with:
+
+```bash
+python3 brain_cli.py doctor --backend postgres
+```
+
 ## Design Rule
 
 Code may read environment values, validate them, and create missing local config.

@@ -109,6 +109,8 @@ PUBNUB_USER_ID=agent-kanban
 Configure Brain for production using PostgreSQL with pgvector and embeddings.
 The SQLite Brain is useful for local demos and tests, but it is not the
 recommended shared semantic store.
+See [HOSTED_BRAIN.md](HOSTED_BRAIN.md) for database creation, schema install,
+and `doctor --backend postgres`.
 
 Typical team workflow:
 

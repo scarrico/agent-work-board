@@ -110,6 +110,9 @@ The production provider should use:
 The local SQLite provider is for tests, demos, and fallback only. It should not
 be presented as equivalent to the pgvector-backed brain.
 
+For hosted setup steps, schema installation, and `doctor --backend postgres`,
+see [HOSTED_BRAIN.md](HOSTED_BRAIN.md).
+
 The intended topology is:
 
 ```text
