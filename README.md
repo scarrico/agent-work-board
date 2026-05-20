@@ -9,6 +9,8 @@
   work systems
 - Addressable worker processes that can claim, heartbeat, complete, or fail work
 - Optional PubNub event publishing for observing board activity
+- A terminal-first event dashboard for file or PubNub event streams, with an
+  optional browser view
 - SSH RPC for cross-machine development without running an HTTP server
 - Optional LLM-backed Kanban and Scrum status agents for daily summaries and
   stale-work detection
@@ -97,6 +99,15 @@ authenticate with `blocks login --write-env`. Callers can try public free agents
 from the Blocks browser UI without bringing their own API key, subject to the
 Blocks anonymous quota.
 
+Monitor live board events in a terminal:
+
+```bash
+python3.11 event_dashboard.py --source file --event-file data/kanban_events.jsonl
+python3.11 event_dashboard.py --source pubnub --channels agent-kanban.events
+```
+
+See [docs/EVENT_DASHBOARD.md](docs/EVENT_DASHBOARD.md).
+
 ## Blocks + PubNub
 
 The recommended public entrypoint is the Blocks Kanban agent. Blocks gives agent
@@ -110,6 +121,10 @@ Blocks agent/task call -> KanbanService -> Jira/SQLite board
 
 The same handler can be run directly for local fallback with
 [kanban_request.py](kanban_request.py).
+
+Use [event_dashboard.py](event_dashboard.py) to watch those events from a
+terminal. A browser dashboard is available with `--ui http`, but it is not
+required for SSH or tmux workflows.
 
 ## Downloaded Agent Workflow
 
