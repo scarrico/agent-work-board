@@ -96,7 +96,9 @@ python3.11 blocks_mcp_server.py
 ```
 
 This server exposes a stable MCP surface that can execute locally or through the
-published Blocks broker agent. Configure the transport with:
+published Blocks broker agent. For services that register their MCP-compatible
+tools with the broker, Blocks/PubNub becomes an optional remote transport across
+machines. Configure the transport with:
 
 ```text
 BLOCKS_MCP_TRANSPORT=local

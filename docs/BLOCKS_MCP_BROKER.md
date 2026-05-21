@@ -1,13 +1,24 @@
 # Blocks MCP Broker
 
-The Blocks MCP broker makes the local MCP tool shape portable. An AI agent can
-use stable MCP tools, while configuration decides whether calls execute locally
-or through a Blocks agent.
+The Blocks MCP broker is a transport bridge for MCP-style tools. It lets an AI
+agent keep using the same tool names and schemas while the call is executed
+locally or brokered remotely through Blocks/PubNub.
+
+In practice, this means any service that exposes an MCP-compatible tool can opt
+into remote access by registering that tool with the broker. The agent does not
+need to know where the service runs. A local laptop, a Jira-backed board worker,
+a shared Brain service, or a market-data worker can all sit behind the same
+MCP-facing transport.
 
 ```text
 AI agent -> agent-blocks-mcp -> local Python tools
-AI agent -> agent-blocks-mcp -> Blocks agent_mcp_broker -> Python tools
+AI agent -> agent-blocks-mcp -> Blocks/PubNub -> agent_mcp_broker -> registered tools
 ```
+
+This is intentionally a layer of indirection. MCP remains the agent-facing API;
+Blocks/PubNub is an optional transport for remote execution across machines.
+The broker only dispatches registered tool names, so services can decide exactly
+which operations are exposed.
 
 ## Local MCP
 
@@ -63,7 +74,11 @@ Run the same request without Blocks:
 printf '%s\n' '{"tool":"kanban.counts","arguments":{"backend":"sqlite"}}' | python3.11 blocks_mcp_broker.py
 ```
 
-## Tool Names
+## Registered Tool Names
+
+The current broker registers the tools below. Additional MCP-compatible
+services can be added by registering their tool functions in
+`blocks_mcp_broker.py`.
 
 - `brain.capture_thought`
 - `brain.search_thoughts`

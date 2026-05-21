@@ -23,8 +23,8 @@
   MCP-compatible tooling
 - MCP servers for Agent Brain and Agent Work Boards so AI agents can call the
   same tools over stdio
-- A Blocks MCP broker that lets MCP-style tool calls run locally or through
-  Blocks without changing the agent-facing tool shape
+- A Blocks MCP broker that lets registered MCP-style tool calls run locally or
+  through Blocks/PubNub without changing the agent-facing tool shape
 
 This repo is the reusable coordination layer. Workloads such as market-data
 downloaders, document processors, build agents, or research agents can use the
@@ -39,6 +39,9 @@ The core split is:
   should follow while doing the work.
 - **Blocks** is the agent-facing surface for calling those services, while the
   Python CLIs provide the same operations as a local fallback.
+- **Blocks MCP broker** is an optional transport layer: services expose tools
+  through MCP, and the broker can route those calls locally or across machines
+  through Blocks/PubNub.
 
 This separation keeps Kanban/Scrum boards from becoming a dumping ground for
 policy and memory. Agents can use the board to coordinate work and the brain to

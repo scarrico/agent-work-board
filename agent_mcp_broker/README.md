@@ -1,7 +1,12 @@
 # Agent MCP Broker
 
-`agent_mcp_broker` accepts MCP-style JSON tool calls and routes them through the
-same Python services used by the local MCP servers.
+`agent_mcp_broker` accepts MCP-style JSON tool calls and routes them through
+registered services. It lets MCP remain the agent-facing API while Blocks/PubNub
+acts as an optional remote transport across machines.
+
+Any MCP-compatible service can use this pattern by registering explicit tool
+names with the broker. The current package registers Brain, Kanban, Scrum,
+daily briefing, and optional Massive data-plane tools.
 
 Example request:
 
@@ -39,5 +44,5 @@ Tool names are explicit and namespaced:
 - `massive.*` when the Massive data-plane package is installed or available as
   a sibling checkout
 
-Use this agent when local MCP tools should reach a remote Blocks runtime without
+Use this agent when local MCP tools should reach remote services without
 requiring inbound HTTP services on worker machines.
