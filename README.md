@@ -1,5 +1,18 @@
 # Agent Work Boards
 
+Host Brain, Kanban, Scrum, status, and other MCP-compatible services on one
+developer machine, then let other developers and AI agents use those services
+remotely through Blocks/PubNub. The host does not need inbound HTTP, SSH, VPN,
+or a shared filesystem. MCP remains the agent-facing tool API; Blocks/PubNub is
+an optional transport for executing registered tools across machines.
+
+```text
+AI agent -> local MCP tools -> Blocks/PubNub -> hosted services
+```
+
+Secrets and service configuration stay on the host machine. Remote callers get
+tool results, not direct access to the machine or its credentials.
+
 ## What This Repo Provides
 
 - A generic Kanban board for coordinating agents and workers
