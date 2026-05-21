@@ -19,24 +19,79 @@ interface.
 
 Local mode uses SQLite for process registry, heartbeats, commands, and events.
 
+Seed work:
+
+```bash
+python3.11 kanban_cli.py \
+  --backend sqlite \
+  --db data/runtime-demo.sqlite \
+  --board data-prefetch \
+  add "Demo worker card" \
+  --payload '{"job_type":"demo"}'
+```
+
+Start workers:
+
 ```bash
 python3.11 agent_runtime/supervisor.py \
   --module data_plane.prefetch.agent \
-  --agents 4 \
+  --agents 2 \
   --board data-prefetch \
-  --transport local
+  --backend sqlite \
+  --db-path data/runtime-demo.sqlite \
+  --registry-db data/agent_runtime.sqlite \
+  --transport local \
+  --max-cards 1
 ```
 
-Inspect:
+List workers:
 
 ```bash
-python3.11 agent_runtime/agentctl.py agents
+python3.11 agent_runtime/agentctl.py \
+  --registry-db data/agent_runtime.sqlite \
+  agents
 ```
 
-Send command:
+Show recent worker events:
 
 ```bash
-python3.11 agent_runtime/agentctl.py send data_prefetch.host.1234.abcd stop_after_current
+python3.11 agent_runtime/agentctl.py \
+  --registry-db data/agent_runtime.sqlite \
+  events --limit 20
+```
+
+Stop a worker after its current card:
+
+```bash
+python3.11 agent_runtime/agentctl.py \
+  --registry-db data/agent_runtime.sqlite \
+  stop prefetch-1
+```
+
+Queue any supported command explicitly:
+
+```bash
+python3.11 agent_runtime/agentctl.py \
+  --registry-db data/agent_runtime.sqlite \
+  send prefetch-1 stop_after_current
+```
+
+Inspect queued or acknowledged commands:
+
+```bash
+python3.11 agent_runtime/agentctl.py \
+  --registry-db data/agent_runtime.sqlite \
+  commands --agent-id prefetch-1
+```
+
+Inspect failed board work:
+
+```bash
+python3.11 kanban_cli.py \
+  --backend sqlite \
+  --db data/runtime-demo.sqlite \
+  --board data-prefetch \
+  list --column failed
 ```
 
 ## Cross-Machine Board
@@ -57,6 +112,7 @@ python3.11 agent_runtime/supervisor.py \
   --board data-prefetch \
   --board-client http \
   --board-url http://BOARD_HOST:8765 \
+  --registry-db data/agent_runtime.sqlite \
   --transport local
 ```
 

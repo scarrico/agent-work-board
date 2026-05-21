@@ -196,7 +196,8 @@ Blocks package under [agent_scrum_board](agent_scrum_board).
 ## Agent Runtime
 
 Medium-lived addressable worker processes are described in
-[docs/AGENT_RUNTIME.md](docs/AGENT_RUNTIME.md).
+[docs/AGENT_RUNTIME.md](docs/AGENT_RUNTIME.md). Start/list/stop and failed-work
+inspection examples are in [docs/WORKER_LIFECYCLE.md](docs/WORKER_LIFECYCLE.md).
 
 ## LLM Status Agents
 
