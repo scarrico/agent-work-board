@@ -42,6 +42,45 @@ The host keeps service credentials such as Jira, Brain, LLM, and market-data
 keys. Remote callers receive tool results, not direct machine or credential
 access.
 
+## Using Agents Across Organizations
+
+There are two different workflows:
+
+- **Call Sandra's published public agent.** A caller in another organization
+  should call the published agent from Blocks Network. They do not publish or
+  run the same `agent-card.json` under their own account.
+- **Host your own copy.** A developer in another organization who wants to run
+  the provider process on their own machine needs a unique Blocks agent identity
+  under their organization. Copy the agent directory and change
+  `identity.agentName` and `identity.provider.organization` before publishing.
+
+Blocks documents this ownership model in its builder guide: `blocks publish`
+registers the local `agent-card.json`, and `blocks run` keeps that provider
+agent connected from the machine where it is running. Public agents are callable
+from the browser or SDK; copied provider agents should be renamed before another
+organization publishes or runs them.
+
+Use the helper script to make a renamed copy:
+
+```bash
+python3.11 scripts/localize_blocks_agent.py agent_kanban_board chad_kanban_board --organization chad_carrico
+cd chad_kanban_board
+blocks login --write-env
+blocks check
+blocks publish --listing private --billing-mode free --accept-terms
+blocks run
+```
+
+Do the same for the broker when another organization wants to host its own
+remote execution endpoint:
+
+```bash
+python3.11 scripts/localize_blocks_agent.py agent_mcp_broker chad_mcp_broker --organization chad_carrico
+```
+
+The copied agent still delegates to the same Python services. The only thing
+that changes is the Blocks identity used to publish and run it.
+
 ## Failover
 
 Blocks is an interface, not the source of truth. If Blocks is unavailable, run
