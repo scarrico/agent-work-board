@@ -60,7 +60,8 @@ agent connected from the machine where it is running. Public agents are callable
 from the browser or SDK; copied provider agents should be renamed before another
 organization publishes or runs them.
 
-Use the helper script to make a renamed copy:
+Use the helper script to make a renamed copy of any Blocks agent directory in
+this repo:
 
 ```bash
 python3.11 scripts/localize_blocks_agent.py agent_kanban_board chad_kanban_board --organization chad_carrico
@@ -71,8 +72,18 @@ blocks publish --listing private --billing-mode free --accept-terms
 blocks run
 ```
 
-Do the same for the broker when another organization wants to host its own
-remote execution endpoint:
+The same command works for every Blocks agent in this repository:
+
+```text
+agent_kanban_board
+agent_scrum_board
+agent_board_status
+agent_daily_briefing
+agent_mcp_broker
+agent_brain/blocks_agent
+```
+
+For example, make a private MCP broker endpoint for another organization:
 
 ```bash
 python3.11 scripts/localize_blocks_agent.py agent_mcp_broker chad_mcp_broker --organization chad_carrico

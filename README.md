@@ -150,7 +150,7 @@ python3.11 blocks_mcp_server.py
 See [docs/MCP.md](docs/MCP.md) and
 [docs/BLOCKS_MCP_BROKER.md](docs/BLOCKS_MCP_BROKER.md).
 
-If another organization wants to host its own copy of a Blocks agent, create a
+If another organization wants to host its own copy of any Blocks agent, create a
 renamed agent directory before publishing:
 
 ```bash
