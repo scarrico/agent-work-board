@@ -81,6 +81,37 @@ The Kanban tools can use SQLite or Jira through the same `backend`, `board_id`,
 and `db_path` parameters used by the CLI. Scrum tools currently use the Jira
 Scrum backend.
 
+## Blocks MCP Broker
+
+Run:
+
+```bash
+agent-blocks-mcp
+```
+
+Equivalent source-tree command:
+
+```bash
+python3.11 blocks_mcp_server.py
+```
+
+This server exposes a stable MCP surface that can execute locally or through the
+published Blocks broker agent. Configure the transport with:
+
+```text
+BLOCKS_MCP_TRANSPORT=local
+```
+
+or:
+
+```text
+BLOCKS_MCP_TRANSPORT=blocks
+BLOCKS_MCP_BROKER_AGENT=agent_mcp_broker
+BLOCKS_API_KEY=your-blocks-key
+```
+
+See [BLOCKS_MCP_BROKER.md](BLOCKS_MCP_BROKER.md).
+
 ## Example Local Config
 
 For a local AI agent that talks over stdio, configure the command as one of:

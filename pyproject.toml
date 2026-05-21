@@ -23,6 +23,10 @@ dev = [
   "build",
   "twine",
 ]
+blocks = [
+  "blocks-network",
+  "python-dotenv>=1.0",
+]
 
 [project.scripts]
 kanban-board = "kanban_cli:main"
@@ -30,6 +34,8 @@ scrum-board = "scrum_cli:main"
 agent-brain = "brain_cli:main"
 agent-brain-mcp = "agent_brain.mcp_server:main"
 agent-work-board-mcp = "board_mcp_server:main"
+agent-blocks-mcp = "blocks_mcp_server:main"
+blocks-mcp-broker-request = "blocks_mcp_broker:main"
 kanban-request = "kanban_request:main"
 brain-request = "brain_handler:main"
 board-status-request = "board_status_handler:main"
@@ -45,6 +51,9 @@ agent-daily-briefing = "daily_briefing_cli:main"
 packages = ["kanban", "kanban.backends", "scrum", "agent_runtime", "board_agents", "agent_brain"]
 py-modules = [
   "blocks_handler",
+  "blocks_mcp_broker",
+  "blocks_mcp_client",
+  "blocks_mcp_server",
   "brain_cli",
   "brain_handler",
   "board_mcp_server",

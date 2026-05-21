@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "agentName": "agent_mcp_broker",
+    "displayName": "Agent MCP Broker",
+    "description": "Brokers MCP-style tool calls through Blocks to Brain, Kanban, Scrum, status, and optional Massive data-plane tools.",
+    "version": "1.0.0",
+    "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_mcp_broker",
+    "repositoryUrl": "https://github.com/scarrico/agent-work-board",
+    "provider": {
+      "organization": "agent_mcp_broker"
+    }
+  },
+  "capabilities": {
+    "taskKinds": [
+      "request"
+    ]
+  },
+  "io": {
+    "inputs": [
+      {
+        "id": "request",
+        "description": "MCP-style broker request.",
+        "contentType": "application/json",
+        "required": true,
+        "example": {
+          "request_id": "demo-1",
+          "tool": "kanban.counts",
+          "arguments": {
+            "backend": "jira",
+            "board_id": "work"
+          }
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "tool"
+          ],
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "tool": {
+              "type": "string"
+            },
+            "arguments": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    ],
+    "outputs": [
+      {
+        "id": "result",
+        "description": "Brokered tool result.",
+        "contentType": "application/json",
+        "guaranteed": true
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "main",
+      "name": "MCP Tool Broker",
+      "description": "Routes MCP-style JSON tool calls through Blocks so agents can use the same Brain, board, and data-plane tools across machines."
+    }
+  ],
+  "runtime": {
+    "handler": "./handler.ts",
+    "handlerExport": "default",
+    "concurrency": 8,
+    "expectedInstances": 1
+  }
+}
