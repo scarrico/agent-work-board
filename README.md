@@ -316,6 +316,9 @@ Before publishing the repo, run:
 python3.11 scripts/secret_scan.py
 ```
 
+Use [docs/RELEASE_CHECKLIST.md](docs/RELEASE_CHECKLIST.md) before publishing
+Python packages, Blocks agents, or git changes.
+
 ## License
 
 Copyright 2026 Sandra Carrico.
