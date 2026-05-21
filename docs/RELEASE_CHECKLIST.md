@@ -24,7 +24,7 @@ for dir in \
   agent_board_status \
   agent_daily_briefing
 do
-  (cd "$dir" && /Users/scarrico/.blocks/bin/blocks check)
+  (cd "$dir" && blocks check)
 done
 ```
 
@@ -42,7 +42,7 @@ for dir in \
   agent_board_status \
   agent_daily_briefing
 do
-  (cd "$dir" && /Users/scarrico/.blocks/bin/blocks publish --billing-mode free --listing public --accept-terms)
+  (cd "$dir" && blocks publish --billing-mode free --listing public --accept-terms)
 done
 ```
 
@@ -69,7 +69,7 @@ Check the Blocks agent card:
 
 ```bash
 cd agent_massive_financial_data_plane
-/Users/scarrico/.blocks/bin/blocks check
+blocks check
 ```
 
 Publish public/free:
@@ -80,7 +80,7 @@ source agent_massive_financial_data_plane/.env
 set +a
 
 cd agent_massive_financial_data_plane
-/Users/scarrico/.blocks/bin/blocks publish --billing-mode free --listing public --accept-terms
+blocks publish --billing-mode free --listing public --accept-terms
 ```
 
 Push:

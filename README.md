@@ -325,9 +325,9 @@ local agents send JSON requests to handlers running on that host.
 python3.11 -m board_agents.status_agent \
   --board-client ssh \
   --ssh-host 10.0.0.5 \
-  --ssh-user scarrico \
+  --ssh-user dev \
   --ssh-key /path/to/private/key \
-  --ssh-root /Users/scarrico/trading/code/v5.0.0/agent-work-boards \
+  --ssh-root /path/to/agent-work-boards \
   --backend sqlite \
   --db-path data/kanban.sqlite \
   --board default

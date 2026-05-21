@@ -3,7 +3,7 @@
 The Blocks CLI is installed at:
 
 ```text
-/Users/scarrico/.blocks/bin/blocks
+blocks
 ```
 
 The current shell may not find `blocks` until a new terminal reads `.zshrc`, so
@@ -113,8 +113,8 @@ Blocks login must be run from the Mac because it starts a localhost callback at
 Run:
 
 ```bash
-cd /Users/scarrico/trading/code/v5.0.0/agent_kanban_board
-/Users/scarrico/.blocks/bin/blocks login --write-env
+cd /path/to/agent-work-boards/agent_kanban_board
+blocks login --write-env
 ```
 
 Complete the browser login on the Mac. Blocks should write `BLOCKS_API_KEY` into:
@@ -128,8 +128,8 @@ That file is ignored by git.
 ## Validate
 
 ```bash
-cd /Users/scarrico/trading/code/v5.0.0/agent_kanban_board
-/Users/scarrico/.blocks/bin/blocks check
+cd /path/to/agent-work-boards/agent_kanban_board
+blocks check
 ```
 
 ## Publish And Run
@@ -137,20 +137,20 @@ cd /Users/scarrico/trading/code/v5.0.0/agent_kanban_board
 After login:
 
 ```bash
-cd /Users/scarrico/trading/code/v5.0.0/agent_kanban_board
-/Users/scarrico/.blocks/bin/blocks publish
-/Users/scarrico/.blocks/bin/blocks run
+cd /path/to/agent-work-boards/agent_kanban_board
+blocks publish
+blocks run
 ```
 
 If you configured `BLOCKS_API_KEY` manually in `agent_kanban_board/.env` instead
 of using `blocks login`, source it before running:
 
 ```bash
-cd /Users/scarrico/trading/code/v5.0.0/agent_kanban_board
+cd /path/to/agent-work-boards/agent_kanban_board
 set -a
 source .env
 set +a
-/Users/scarrico/.blocks/bin/blocks run
+blocks run
 ```
 
 `blocks whoami` may still report "not logged in" because it checks CLI OAuth

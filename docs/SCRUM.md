@@ -56,11 +56,11 @@ agent_scrum_board/
 Run locally:
 
 ```bash
-cd /Users/scarrico/trading/code/v5.0.0/agent_scrum_board
+cd /path/to/agent-work-boards/agent_scrum_board
 set -a
 source .env
 set +a
-/Users/scarrico/.blocks/bin/blocks run
+blocks run
 ```
 
 Example Blocks request:

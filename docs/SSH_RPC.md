@@ -14,10 +14,10 @@ Shared SSH settings:
 
 ```bash
 AGENT_SSH_HOST=10.0.0.5
-AGENT_SSH_USER=scarrico
+AGENT_SSH_USER=dev
 AGENT_SSH_PORT=22
 AGENT_SSH_KEY=/path/to/private/key
-AGENT_SSH_ROOT=/Users/scarrico/trading/code/v5.0.0/agent-work-boards
+AGENT_SSH_ROOT=/path/to/agent-work-boards
 AGENT_SSH_PYTHON=python3.11
 ```
 
@@ -25,10 +25,10 @@ Board-specific settings override the shared values:
 
 ```bash
 KANBAN_SSH_HOST=10.0.0.5
-KANBAN_SSH_USER=scarrico
+KANBAN_SSH_USER=dev
 KANBAN_SSH_PORT=22
 KANBAN_SSH_KEY=/path/to/private/key
-KANBAN_SSH_ROOT=/Users/scarrico/trading/code/v5.0.0/agent-work-boards
+KANBAN_SSH_ROOT=/path/to/agent-work-boards
 KANBAN_SSH_PYTHON=python3.11
 ```
 
@@ -36,10 +36,10 @@ Brain-specific settings work the same way:
 
 ```bash
 BRAIN_SSH_HOST=10.0.0.5
-BRAIN_SSH_USER=scarrico
+BRAIN_SSH_USER=dev
 BRAIN_SSH_PORT=22
 BRAIN_SSH_KEY=/path/to/private/key
-BRAIN_SSH_ROOT=/Users/scarrico/trading/code/v5.0.0/agent-work-boards
+BRAIN_SSH_ROOT=/path/to/agent-work-boards
 BRAIN_SSH_PYTHON=python3.11
 ```
 
@@ -59,10 +59,10 @@ Equivalent explicit flags:
 python3.11 -m board_agents.status_agent \
   --board-client ssh \
   --ssh-host 10.0.0.5 \
-  --ssh-user scarrico \
+  --ssh-user dev \
   --ssh-port 22 \
   --ssh-key /path/to/private/key \
-  --ssh-root /Users/scarrico/trading/code/v5.0.0/agent-work-boards \
+  --ssh-root /path/to/agent-work-boards \
   --backend sqlite \
   --db-path data/kanban.sqlite \
   --board default
