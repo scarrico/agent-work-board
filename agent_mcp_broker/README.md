@@ -4,6 +4,10 @@
 registered services. It lets MCP remain the agent-facing API while Blocks/PubNub
 acts as an optional remote transport across machines.
 
+Run the broker on the machine that has the service configuration and secrets.
+Other developers can call the same registered tools through Blocks/PubNub
+without inbound HTTP, SSH, VPN, or a shared filesystem.
+
 Any MCP-compatible service can use this pattern by registering explicit tool
 names with the broker. The current package registers Brain, Kanban, Scrum,
 daily briefing, and optional Massive data-plane tools.

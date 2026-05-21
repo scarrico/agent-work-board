@@ -24,6 +24,24 @@ Blocks calls `agent_kanban_board/handler.ts`, and the handler delegates to:
 blocks_handler.py
 ```
 
+## Runtime Location
+
+Blocks agents can run on any machine that has the code, Python dependencies, and
+runtime configuration for the service they expose. Consumers do not need direct
+network access to that machine. Blocks/PubNub carries the task request and
+result, while the agent process executes locally wherever `blocks run` is
+running.
+
+This is the main deployment model for the MCP broker:
+
+```text
+developer AI agent -> Blocks/PubNub -> agent_mcp_broker on host machine -> registered services
+```
+
+The host keeps service credentials such as Jira, Brain, LLM, and market-data
+keys. Remote callers receive tool results, not direct machine or credential
+access.
+
 ## Failover
 
 Blocks is an interface, not the source of truth. If Blocks is unavailable, run

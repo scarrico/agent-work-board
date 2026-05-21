@@ -2,7 +2,7 @@
   "identity": {
     "agentName": "agent_mcp_broker",
     "displayName": "Agent MCP Broker",
-    "description": "Brokers MCP-style tool calls through Blocks to Brain, Kanban, Scrum, status, and optional Massive data-plane tools.",
+    "description": "Uses Blocks/PubNub as an optional transport for registered MCP-style tools, so Brain, Kanban, Scrum, status, and optional Massive data-plane services can run on one machine and be used remotely without inbound HTTP, SSH, VPN, or shared filesystems.",
     "version": "1.0.0",
     "documentationUrl": "https://github.com/scarrico/agent-work-board/tree/main/agent_mcp_broker",
     "repositoryUrl": "https://github.com/scarrico/agent-work-board",
@@ -62,7 +62,7 @@
     {
       "id": "main",
       "name": "MCP Tool Broker",
-      "description": "Routes MCP-style JSON tool calls through Blocks so agents can use the same Brain, board, and data-plane tools across machines."
+      "description": "Routes registered MCP-style JSON tool calls through Blocks/PubNub so agents can use hosted Brain, board, and data-plane services across machines without changing tool names."
     }
   ],
   "runtime": {
