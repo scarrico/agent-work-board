@@ -112,6 +112,12 @@ MCP tool call        -> MCP server        -> hosted Postgres + pgvector
 Local CLI            -> brain_cli.py      -> hosted Postgres + pgvector
 ```
 
+Run the Brain MCP server with:
+
+```bash
+python3.11 -m agent_brain.mcp_server
+```
+
 Keep action names consistent across entrypoints: `capture_thought`,
 `search_thoughts`, `put_instruction`, `get_instructions`, and the other Brain
 tools documented in [AGENT_BRAIN.md](AGENT_BRAIN.md).

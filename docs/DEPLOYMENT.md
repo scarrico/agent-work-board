@@ -149,6 +149,13 @@ cd agent_daily_briefing && blocks run
 Blocks should create and inspect work. Long-running workers should run as
 normal Python processes and claim cards from the same board.
 
+Run MCP servers when a local AI agent should call tools directly:
+
+```bash
+python3.11 -m agent_brain.mcp_server
+python3.11 board_mcp_server.py
+```
+
 ## SSH-Mediated Setup
 
 Use this when a developer machine should own board or Brain state, but you do

@@ -21,6 +21,8 @@
 - A Blocks-facing Agent Brain for shared context plus daily, weekly, and
   tool-specific instructions, backed in production by pgvector, embeddings, and
   MCP-compatible tooling
+- MCP servers for Agent Brain and Agent Work Boards so AI agents can call the
+  same tools over stdio
 
 This repo is the reusable coordination layer. Workloads such as market-data
 downloaders, document processors, build agents, or research agents can use the
@@ -118,6 +120,15 @@ python3.11 event_dashboard.py --source pubnub --channels agent-kanban.events
 ```
 
 See [docs/EVENT_DASHBOARD.md](docs/EVENT_DASHBOARD.md).
+
+Run MCP servers for AI-agent tool access:
+
+```bash
+python3.11 -m agent_brain.mcp_server
+python3.11 board_mcp_server.py
+```
+
+See [docs/MCP.md](docs/MCP.md).
 
 ## Blocks + PubNub
 
@@ -271,9 +282,9 @@ MCP server          -> same Brain service
 ```
 
 Blocks gives deployed agents a brokered request surface. MCP gives local or
-MCP-capable agents direct tool access. Both should share the same Brain action
-names so daily instructions, weekly instructions, tool guidance, and memories
-behave the same way from either entrypoint.
+MCP-capable agents direct tool access. Both share the same Brain action names
+so daily instructions, weekly instructions, tool guidance, and memories behave
+the same way from either entrypoint.
 
 ## SSH RPC
 

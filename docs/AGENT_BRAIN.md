@@ -78,6 +78,16 @@ Example Blocks request:
 }
 ```
 
+## MCP
+
+Brain also exposes the same action set as MCP tools:
+
+```bash
+python3.11 -m agent_brain.mcp_server
+```
+
+See [MCP.md](MCP.md).
+
 ## SSH
 
 Brain calls can also be mediated through SSH when a developer machine should own
@@ -104,7 +114,7 @@ The production provider should use:
 - PostgreSQL
 - pgvector
 - a real embedding model or embedding API
-- an MCP server exposing the same tool actions
+- the MCP server exposing the same tool actions
 - the Blocks handler as the brokered agent-facing request surface
 
 The local SQLite provider is for tests, demos, and fallback only. It should not
