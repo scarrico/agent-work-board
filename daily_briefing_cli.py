@@ -28,6 +28,7 @@ def main() -> None:
     parser.add_argument("--instruction-tool", default="daily_briefing_agent")
     parser.add_argument("--instruction-project", default=None)
     parser.add_argument("--include-scrum", action="store_true")
+    parser.add_argument("--use-llm", action="store_true")
     parser.add_argument("--no-brain", action="store_true")
     parser.add_argument("--no-recent", action="store_true")
     parser.add_argument("--remember-summary", action="store_true")
@@ -49,6 +50,7 @@ def main() -> None:
         "instruction_tool": args.instruction_tool,
         "instruction_project": args.instruction_project,
         "use_brain": not args.no_brain,
+        "use_llm": args.use_llm,
         "include_recent": not args.no_recent,
         "remember_summary": args.remember_summary,
         "kanban": {"board_id": args.board},

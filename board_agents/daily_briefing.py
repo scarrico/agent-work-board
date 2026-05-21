@@ -85,6 +85,7 @@ def _merge_status_request(parent: dict[str, Any], raw: Any, board_type: str) -> 
         "remember_summary": False,
         "max_cards": parent.get("max_cards", 8),
         "stale_minutes": parent.get("stale_minutes", 60),
+        "use_llm": parent.get("use_llm", False),
     }
     for key in (
         "board_url",

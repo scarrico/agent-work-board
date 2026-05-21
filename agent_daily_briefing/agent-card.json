@@ -61,6 +61,7 @@
             "include_recent": {"type": "boolean"},
             "recent_limit": {"type": "integer"},
             "remember_summary": {"type": "boolean"},
+            "use_llm": {"type": "boolean"},
             "ssh_host": {"type": "string"},
             "ssh_root": {"type": "string"},
             "ssh_python": {"type": "string"},

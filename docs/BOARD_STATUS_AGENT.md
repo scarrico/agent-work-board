@@ -28,6 +28,9 @@ export OPENAI_MODEL=replace-me
 python3.11 -m board_agents.status_agent --backend sqlite --db-path /tmp/kanban.sqlite --board default
 ```
 
+For recommended Brain instructions, Blocks request shape, and cost-control
+notes, see [LLM_USAGE.md](LLM_USAGE.md).
+
 Create a status card back on the board:
 
 ```bash

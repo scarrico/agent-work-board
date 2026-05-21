@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 from agent_brain import BrainService
 from board_agents.daily_briefing import execute_daily_briefing_request
@@ -48,6 +49,28 @@ class DailyBriefingTests(unittest.TestCase):
         self.assertIn("Recent remembered summaries:", result["digest"])
         self.assertEqual(len(result["instructions"]), 1)
         self.assertEqual(len(result["recent_summaries"]), 1)
+
+    def test_daily_briefing_passes_use_llm_to_status_sections(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            board_db = root / "kanban.sqlite"
+            board = LocalBoardClient(board_id="demo", backend="sqlite", db_path=str(board_db))
+            board.add_card("Review LLM briefing", actor="test")
+
+            with patch("board_agents.request.llm_digest", return_value="LLM DIGEST") as llm_digest:
+                result = execute_daily_briefing_request(
+                    {
+                        "use_brain": False,
+                        "use_llm": True,
+                        "backend": "sqlite",
+                        "kanban": {"board_id": "demo", "db_path": str(board_db)},
+                        "include_recent": False,
+                    }
+                )
+
+        self.assertTrue(llm_digest.called)
+        self.assertIn("LLM DIGEST", result["digest"])
+        self.assertTrue(result["sections"][0]["ok"])
 
 
 if __name__ == "__main__":

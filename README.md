@@ -238,7 +238,9 @@ python3.11 -m board_agents.status_agent \
 See [docs/BOARD_STATUS_AGENT.md](docs/BOARD_STATUS_AGENT.md) and
 [docs/SCRUM_STATUS_AGENT.md](docs/SCRUM_STATUS_AGENT.md). The combined daily
 briefing workflow is documented in
-[docs/DAILY_BRIEFING_AGENT.md](docs/DAILY_BRIEFING_AGENT.md).
+[docs/DAILY_BRIEFING_AGENT.md](docs/DAILY_BRIEFING_AGENT.md). To use an LLM API
+key well with Brain instructions and board summaries, see
+[docs/LLM_USAGE.md](docs/LLM_USAGE.md).
 
 ## Agent Brain
 

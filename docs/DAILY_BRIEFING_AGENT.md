@@ -21,6 +21,10 @@ python3.11 daily_briefing_cli.py \
   --board demo
 ```
 
+Add `--use-llm` when `BOARD_STATUS_LLM_PROVIDER`, `OPENAI_API_KEY`, and
+`OPENAI_MODEL` are configured. The LLM pass is applied to the underlying Kanban
+and Scrum status sections.
+
 Include Scrum standup status:
 
 ```bash
